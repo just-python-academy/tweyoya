@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% block main %}
+<section>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 mx-auto my-5">
+        <form method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="form-group">
+            {% render_field form.tweeted_at class="form-control mb-4" placeholder="Tweet予定日時" %}
+          </div>
+          {% for error in form.tweeted_at.errors %}
+          <p class="text-dark">{{ error }}</p>
+          {% endfor %}
+
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="tweet_img"><i class="icofont-image"></i></span>
+            </div>
+            <div class="custom-file">
+              {% render_field form.img class="custom-file-input mb-4" aria-descrybedby="tweet_img" %}
+              <label for="tweet_img" class="custom-file-label">ツイート画像を選択してください</label>
+            </div>
+          </div>
+
+          <div class="text-center mb-3">
+            {% if form.instance.img %}
+            <img src="{{ form.instance.img }}" height="200">
+            {% else %}
+            <img id="mainImage" src="" height="200">
+            {% endif %}
+          </div>
+
+          <div class="form-group">
+            {% render_field form.text class="form-control mb-3" placeholder="Tweet予定内容" %}
+          </div>
+          <div class="text-right">
+            <p><span id="count" class="display-4 px-2"></span> <span>/ 140</span></p>
+          </div>
+          {% for error in form.text.errors %}
+          <p class="text-dark">{{ error }}</p>
+          {% endfor %}
+          
+          <div class="row justify-content-center mb-5">
+            <div>
+              <a href="{% url 'twitter:index' %}" class="btn btn-outline-secondary">Topに戻る</a>
+              <button type="submit" class="btn btn-primary">予約する</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'assets/js/jquery.datetimepicker.full.min.js' %}"></script>
+<script src="{% static 'assets/js/twitter-text.min.js' %}"></script>
+<script src="{% static 'assets/js/main.js' %}"></script>
+{% endblock %}

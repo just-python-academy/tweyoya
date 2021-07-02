@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% block main %}
+<section>
+  <div class="container py-5">
+    <div class="row">
+      <div class="col-md-8 colsm-9 col-10 mx-auto">
+        <form action="" method="post">
+          <div class="col-md-9 mx-auto">
+            <div class="mt-4 mb-3">
+              <div class="rounded">
+                {% render_field form.username class="form-control border-secondary" placeholder="username" %}
+              </div>
+            </div>
+            <ul>
+              {% for error in form.username.errors %}
+              <li>{{ error }}</li>
+              {% endfor %}
+            </ul>
+            
+            <div class="mt-4 mb-3">
+              <div class="rounded">
+                {% render_field form.password class="form-control border-secondary" placeholder="password" %}
+              </div>
+              <ul>
+                {% for error in form.password.errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+          <div class="mb-5 text-center">
+            <button type="submit" class="btn btn-primary text-light w-50">ログイン</button>
+          </div>
+          {% csrf_token %}
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

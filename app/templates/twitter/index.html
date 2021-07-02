@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block main %}
+<section>
+  <div class="container mb-5">
+    <div class="row">
+      <div class="col-12 py-5">
+        <div class="border-bottom border-primary">
+          <h3>予約済み</h3>
+        </div>
+      </div>
+      {% for tweet in tweets %}
+      <div class="col-sm-6 col-xl-4 pb-3">
+        <div class="card">
+          <div class="p-3">
+            {% if tweet.img %}
+            <img src="{{ tweet.img.url }}" class="w-100 rounded" style="height: 180px;">
+            {% else %}
+            <img src="{% static 'assets/img/sample.png' %}" class="w-100 rounded" style="height: 180px;">
+            {% endif %}
+          </div>
+          <div class="card-body">
+            <div class="container">
+              <div class="row">
+                <div class="col-md-4"></div>
+                <div class="col-md-8 pr-0">
+                  <div class="text-right pb-2">
+                    <span>{{ tweeted_at }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <p class="card-text border rounded py-3 px-4 card-body-height">{{ tweet.text|linebreaksbr|truncatechars:80 }}</p>
+            <div class="text-center">
+              <a href="{% url 'twitter:update' pk=tweet.pk %}" class="btn btn-primary">編集</a>
+              <a href="{% url 'twitter:delete' pk=tweet.pk %}" class="btn btn-danger">削除</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  <div class="w-100">
+    <a class="btn btn-primary btn-lg shadow position-create" href="{% url 'twitter:create' %}">
+      <span class="text-white text-center font-18 text-initial">
+        予約する
+      </span>
+    </a>
+  </div>
+</section>
+{% endblock %}
