@@ -1,3 +1,4 @@
+from django.core.checks.messages import Debug
 import environ
 from pathlib import Path
 
@@ -58,12 +59,24 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'app.wsgi.application'
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+if Debug:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': env('DB_NAME_SQL'),
+            'USER': env('DB_USER_SQL'),
+            'PASSWORD': env('DB_PASSWORD_SQL'),
+            'HOST': env('DB_HOST_SQL'),
+            'PORT': 3306 if DEBUG else '',
+        }
+    }
 
 AUTH_PASSWORD_VALIDATORS = [
     {
